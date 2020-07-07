@@ -97,6 +97,7 @@ public class ForecastServiceImpl implements ForecastService {
 
             forecastRepository.save(forecast);
         }
+        periodRepository.deleteAll();
         periodRepository.save(droughtPeriod);
         periodRepository.save(optimalPeriod);
         periodRepository.save(rainingPeriod);
