@@ -100,8 +100,7 @@ public class ForecastServiceImpl implements ForecastService {
 
             forecastRepository.save(forecast);
         }
-        logger.log(Level.INFO,"Recopilación del clima realizada con éxito\n");
-
+        periodRepository.deleteAll();
         periodRepository.save(droughtPeriod);
         periodRepository.save(optimalPeriod);
         periodRepository.save(rainingPeriod);
