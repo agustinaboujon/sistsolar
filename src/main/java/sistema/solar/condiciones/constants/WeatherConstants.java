@@ -1,4 +1,4 @@
-package sistema.solar.condiciones.entity;
+package sistema.solar.condiciones.constants;
 
 public class WeatherConstants {
     public static final long DROUGHT = 001;

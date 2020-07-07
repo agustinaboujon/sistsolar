@@ -10,6 +10,8 @@ import sistema.solar.condiciones.service.TermsService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class TermsServiceImpl implements TermsService {
@@ -17,6 +19,8 @@ public class TermsServiceImpl implements TermsService {
     @Autowired
     @Qualifier("termsRepository")
     TermsRepository termsRepository;
+
+    private Logger logger;
 
     private List<Planet> listPlanet(){
         /*List<Planet> list = new ArrayList<>();
@@ -56,6 +60,7 @@ public class TermsServiceImpl implements TermsService {
 
     @Override
     public List<Planet> getPlanet() {
+        logger.log(Level.INFO,"Detalles de los planetas: \n", listPlanet());
         return listPlanet();
     }
 

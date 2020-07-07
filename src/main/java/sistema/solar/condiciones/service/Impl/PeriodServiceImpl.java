@@ -15,6 +15,8 @@ import sistema.solar.condiciones.service.TermsService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Component
 @Data
@@ -24,8 +26,11 @@ public class PeriodServiceImpl implements PeriodService {
     @Qualifier("periodRepository")
     private PeriodRepository periodRepository;
 
+    private Logger logger;
+
     @Override
     public List<Period> listPeriod() {
+        logger.log(Level.INFO,"Detalles de periodos: \n", periodRepository.findAll());
         return periodRepository.findAll();
     }
 

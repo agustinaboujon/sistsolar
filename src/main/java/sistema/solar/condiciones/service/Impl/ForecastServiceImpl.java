@@ -3,10 +3,9 @@ package sistema.solar.condiciones.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import sistema.solar.condiciones.entity.Forecast;
 import sistema.solar.condiciones.entity.Period;
-import sistema.solar.condiciones.entity.WeatherConstants;
+import sistema.solar.condiciones.constants.WeatherConstants;
 import sistema.solar.condiciones.repository.ForecastRepository;
 import sistema.solar.condiciones.repository.PeriodRepository;
 import sistema.solar.condiciones.repository.TermsRepository;
@@ -16,6 +15,8 @@ import sistema.solar.condiciones.service.TermsService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @Component
@@ -35,6 +36,8 @@ public class ForecastServiceImpl implements ForecastService {
     @Autowired
     @Qualifier("forecastRepository")
     ForecastRepository forecastRepository;
+
+    private Logger logger;
     @Override
     public void setForecast(Long year) {
         Integer day = Math.toIntExact(year * 364);
@@ -97,14 +100,23 @@ public class ForecastServiceImpl implements ForecastService {
 
             forecastRepository.save(forecast);
         }
+        logger.log(Level.INFO,"Recopilación del clima realizada con éxito\n");
+
         periodRepository.save(droughtPeriod);
         periodRepository.save(optimalPeriod);
         periodRepository.save(rainingPeriod);
         periodRepository.save(unknowPeriod);
+
+        logger.log(Level.INFO,"Recopilación de periodos de sequía \n", droughtPeriod);
+        logger.log(Level.INFO,"Recopilación de periodos óptimos \n", optimalPeriod);
+        logger.log(Level.INFO,"Recopilación de periodos de lluvia \n", rainingPeriod);
+        logger.log(Level.INFO,"Recopilación de periodos desconocidos \n", unknowPeriod);
+        logger.log(Level.INFO,"Recopilación de periodos realizada con éxito\n");
     }
 
     @Override
     public Forecast getForecast(Long day) {
+        logger.log(Level.INFO,"Clima del día consultado: \n", forecastRepository.findById(day).get());
         return forecastRepository.findById(day).get();
     }
 
@@ -116,6 +128,8 @@ public class ForecastServiceImpl implements ForecastService {
                 listRaining.add(forecast);
         }
         Forecast var = listRaining.stream().max(Comparator.comparing(item -> item.getAngle())).get();
+        logger.log(Level.INFO,"Día con pico máximo de lluvia: \n", var.getIdForecast());
+
         return var.getIdForecast();
     }
 }
